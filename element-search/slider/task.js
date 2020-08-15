@@ -1,19 +1,21 @@
 "use strict";
 
 const sliders = document.querySelectorAll("div.slider__item");
-const arrows = document.querySelectorAll("div.slider__arrow");
 const slidersArr = Array.from(sliders);
-const arrowsArr = Array.from(arrows);
+const prev = document.querySelector("div.slider__arrow_prev");
+const next = document.querySelector("div.slider__arrow_next");
 
-for (let arrow of arrowsArr) {
-  arrow.onclick = function () {
-    for (let i = 0; i < slidersArr.length; i++) {
-      slidersArr[i].classList.toggle("slider__item_active");
-    }
-  };
+next.onclick = function() {
+  let activeSlide = slidersArr.findIndex(item => item.className.includes("slider__item_active")); 
+  slidersArr[activeSlide].className = "slider__item";
+  let nextSlide = (activeSlide == slidersArr.length - 1) ? slidersArr[0] : slidersArr[activeSlide + 1];
+  nextSlide.className = "slider__item slider__item_active";
 }
 
-
-
-    
+prev.onclick = function() {
+  let activeSlide = slidersArr.findIndex(item => item.className.includes("slider__item_active")); 
+  slidersArr[activeSlide].className = "slider__item";
+  let nextSlide = (activeSlide == 0) ? slidersArr[slidersArr.length - 1] : slidersArr[activeSlide - 1];
+  nextSlide.className = "slider__item slider__item_active";
+}
 
