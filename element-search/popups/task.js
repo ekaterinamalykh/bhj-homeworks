@@ -5,11 +5,9 @@ const success = document.getElementById("modal_success");
 let links = document.getElementsByTagName("a");
 let newModal = links.item(0);
 
-const backgroundStyle = document.querySelector('div.modal');
-
 newModal.onclick = function () { 
   success.className = "modal modal_success modal_active";
-  backgroundStyle.style.background = 'rgba(0, 0, 0, 0)';
+  modal.className = "modal";
 };
 
 let buttons = document.querySelectorAll("div.modal__close");
