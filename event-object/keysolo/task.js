@@ -17,6 +17,15 @@ class Game {
   }
 
   registerEvents() {
+    this.keyPressed = document.addEventListener("keyup", event => {
+      let rigthKey = this.currentSymbol.innerHTML;
+      if (event.key === rigthKey) {
+        this.success();
+      } else {
+          this.fail();
+        }
+    });
+    
     /*
       TODO:
       Написать обработчик события, который откликается
