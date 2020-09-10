@@ -68,20 +68,16 @@ class Autocomplete {
   }
 
   getMatches( text ) {
-
+    let allMatches = [];
     for (let i = 0; i < this.input.options.length; i++) {
-      if (this.input.options[i].textContent.includes(text)) {
-        return [
-          {
-          text: `${this.input.options[i].textContent}`,
-          value: `${this.input.options[i].value}`
-
-        }
-      ];
+      if (this.input.options[i].textContent.includes(text) && text.length > 0) {
+        allMatches.push({
+          text: this.input.options[i].textContent,
+          value: this.input.options[i].value
+        });
       }
     }
-    
-
+    return allMatches;
     
     /*
       TODO: этот метод нужно дописать
