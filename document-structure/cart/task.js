@@ -1,33 +1,29 @@
-const addButtons = document.getElementsByClassName("product__add");
-const cart = document.getElementsByClassName("cart__products")[0];
+const cart = document.getElementsByClassName("cart__products")[0]; // корзина
+let arrayOfCart = Array.from(cart);
+const counter = document.getElementsByClassName("product"); // витрина
 
-const decreases = document.getElementsByClassName("product__quantity-control_dec");
-const increases = document.getElementsByClassName("product__quantity-control_inc");
-const values = document.getElementsByClassName("product__quantity-value");
-
-for (let increase of increases) {
-  increase.onclick = function() {
-    let num = Number(this.previousElementSibling.textContent);
-    this.previousElementSibling.textContent = num + 1;
-  }   
-}
-
-for (let decrease of decreases) {
+for(let product of counter) {
+  const decrease = product.getElementsByClassName("product__quantity-control_dec")[0];
   decrease.onclick = function() {
     let num = Number(this.nextElementSibling.textContent);
     this.nextElementSibling.textContent = num - 1 || 1;
   }
-}
-
-for (let addButton of addButtons) {
-    addButton.addEventListener("click", addProduct);
-}
-
-function addProduct() {
-  cart.insertAdjacentHTML('beforeend', '<div class="cart__product" data-id="1"><img class="cart__product-image" src="image.png"><div class="cart__product-count">20</div></div>');
-  cart.lastElementChild.attributes[1].value = this.parentElement.parentElement.parentElement.attributes[1].value; // data-id последнего товара в корзине
-  // console.log(cart.lastElementChild.getElementsByClassName("cart__product-image")[0].attributes.src.value); //последняя картинка в корзине
-  // console.log(this.parentElement.parentElement.parentElement.getElementsByClassName("product__image")[0].attributes.src.value); // картинка товара, который нажат
-  cart.lastElementChild.getElementsByClassName("cart__product-image")[0].attributes.src.value = this.parentElement.parentElement.parentElement.getElementsByClassName("product__image")[0].attributes.src.value;
-  cart.lastElementChild.getElementsByClassName("cart__product-count")[0].textContent = this.parentElement.getElementsByClassName("product__quantity-value")[0].textContent; //количество товара
+  const increase = product.getElementsByClassName("product__quantity-control_inc")[0];
+  increase.onclick = function() {
+    let num = Number(this.previousElementSibling.textContent);
+    this.previousElementSibling.textContent = num + 1;
+  }
+  const addButton = product.getElementsByClassName("product__add")[0];
+  addButton.onclick = function() {
+    if ((arrayOfCart.find(item => item.dataset.id == product.dataset.id)) == undefined) {
+      arrayOfCart.push(product);
+      cart.insertAdjacentHTML('beforeend', `<div class="cart__product" data-id=${product.dataset.id}><img class="cart__product-image" src=${product.getElementsByTagName("img")[0].src}><div class="cart__product-count">${product.getElementsByClassName("product__quantity-value")[0].textContent}</div></div>`);  
+    } else {
+      let productsInCart = cart.getElementsByClassName("cart__product");
+      let productToUpdate = Array.from(productsInCart).find(item => item.dataset.id == product.dataset.id);
+      let quantity = Number(productToUpdate.getElementsByClassName("cart__product-count")[0].textContent); // кол-во в корзине
+      let quantityToAdd = Number(product.getElementsByClassName("product__quantity-value")[0].textContent); // кол-во добавить
+      productToUpdate.getElementsByClassName("cart__product-count")[0].textContent = quantity + quantityToAdd; // новое кол-во в корзине
+    }
+  }
 }
